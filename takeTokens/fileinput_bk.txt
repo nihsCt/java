@@ -1,0 +1,26 @@
+challenge
+# 	Type 	Points 	Name 	Description 	Solved
+1 	misc 	10 	CTF hello world! 	FLAG is flag{Hello_world!!}, just submit. 	27
+2 	web 	50 	Login as admin 1 	SQL injection 1, just login. 	22
+3 	web 	150 	Login as admin 2 	SQL injection 2, you need to be admin!! 	21
+4 	web 	300 	Login as admin 3 	SQL injection 3, what will happend while escaped twice? 	7
+5 	web 	100 	MD5_Collision 	MD5 has collision?, It's weak. 	19
+6 	web 	100 	F12 	Do you know browser's development tools? 	22
+7 	web 	50 	Singled twenty years. 	Are you fast enough?, or be a robot. 	22
+8 	web 	150 	Singled 1000 years. 	It won't work even you are singled for 100 years. Do you know command? 	20
+9 	web 	200 	Ping 	Can you ping the flag? 	8
+10 	web 	250 	Encode 	I will decode your input. 	20
+11 	web 	200 	Referer 	I only accept person who comes from FCU. 	23
+12 	web 	150 	Cookie 	I only have the accout guest, you will never login with admin HAHA. 	22
+13 	web 	100 	Download 	The downloader is helpful. 	22
+14 	web 	100 	Header 	The response is not only body 	23
+15 	web 	150 	Search engine 	Only google, yahoo, baidu can see me 	20
+16 	binary 	200 	Binary Baby 101 	Play baby hide and seek 	17
+17 	binary 	250 	Who Is Admin 	Are you admin??? 	22
+18 	binary 	300 	Mama like 31cm 	Mama don't like toooooo long or too short 	22
+19 	binary 	350 	7$ buy ticket 	Buy some ticket if you can 	21
+20 	binary 	400 	Revowolf 	Wolf need revo how about you? 	22
+21 	binary 	450 	The Shell Code 	Just Run The Code 	9
+22 	binary 	500 	Move your EIP 	Who control the EIP, who get the world!!! 	18
+23 	binary 	550 	PWN 101 	Not pwn find flag 	3
+24 	misc 	400 	Very big 	Compression is Amazing 	17

@@ -1,0 +1,24 @@
+ --misc: CTF hello world!  //FLAG is flag{Hello_world!!}, just submit.
+ --web: Login as admin 1  //SQL injection 1, just login.
+ --web: Login as admin 2  //SQL injection 2, you need to be admin!!
+ --web: Login as admin 3  //SQL injection 3, what will happend while escaped twice?
+ --web: MD5_Collision  //MD5 has collision?, It's weak.
+ --web: F12  //Do you know browser's development tools?
+ --web: Singled twenty years.  //Are you fast enough?, or be a robot.
+ --web: Singled 1000 years.  //It won't work even you are singled for 100 years. Do you know command?
+ --web: Ping  //Can you ping the flag?
+ --web: Encode  //I will decode your input.
+ --web: Referer  //I only accept person who comes from FCU.
+ --web: Cookie  //I only have the accout guest, you will never login with admin HAHA.
+ --web: Download  //The downloader is helpful.
+ --web: Header  //The response is not only body
+ --web: Search engine  //Only google, yahoo, baidu can see me
+ --binary: Binary Baby 101  //Play baby hide and seek
+ --binary: Who Is Admin  //Are you admin???
+ --binary: Mama like 31cm  //Mama don't like toooooo long or too short
+ --binary: 7$ buy ticket  //Buy some ticket if you can
+ --binary: Revowolf  //Wolf need revo how about you?
+ --binary: The Shell Code  //Just Run The Code
+ --binary: Move your EIP  //Who control the EIP, who get the world!!!
+ --binary: PWN 101  //Not pwn find flag
+ --misc: Very big  //Compression is Amazing
