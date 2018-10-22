@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="TextFileFormat:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/TextFileFormat_jar</output-path>
+    <root id="archive" name="TextFileFormat.jar">
+      <element id="module-output" name="TextFileFormat" />
+    </root>
+  </artifact>
+</component>

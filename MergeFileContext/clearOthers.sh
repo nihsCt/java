@@ -1,0 +1,1 @@
+find ./chinese -not -name "*.NER" -exec rm {} \;

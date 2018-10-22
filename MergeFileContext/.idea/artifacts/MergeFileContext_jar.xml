@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="MergeFileContext:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/MergeFileContext_jar</output-path>
+    <root id="archive" name="MergeFileContext.jar">
+      <element id="module-output" name="MergeFileContext" />
+    </root>
+  </artifact>
+</component>
