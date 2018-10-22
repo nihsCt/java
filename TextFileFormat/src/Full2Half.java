@@ -18,7 +18,9 @@ public class Full2Half
     // ASCII character 33-126 <-> unicode 65281-65374
     private final char UNICODE_NUMBER_START = 65296;
     private final char UNICODE_NUMBER_END = 65305;
-    private final char UNICODE_ALPHABET_START = 65313;
+    private final char UNICODE_CAPS_ALPHABET_START = 65313;
+    private final char UNICODE_CAPS_ALPHABET_END = 65338;
+    private final char UNICODE_ALPHABET_START = 65345;
     private final char UNICODE_ALPHABET_END = 65370;
     private final char DBC_SBC_STEP = 65248; // 全形半形轉換間隔
 
@@ -52,6 +54,7 @@ public class Full2Half
 
     private boolean needTransfer(char src){
         if ((src >= UNICODE_ALPHABET_START && src <= UNICODE_ALPHABET_END)
+                || (src >= UNICODE_CAPS_ALPHABET_START && src <= UNICODE_CAPS_ALPHABET_END)
                 || (src >= UNICODE_NUMBER_START && src <= UNICODE_NUMBER_END)) {
             return true;
         }

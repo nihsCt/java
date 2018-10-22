@@ -43,7 +43,7 @@ public class NERFormat
 
         do {
             previousTag = tagFinder.findPreTag(tokens, lineIndex);
-            if(previousTag != null) {
+            if (previousTag != null) {
                 fixedLine = writeTillTag(previousTag, tokens, fixedLine, lineIndex);
 
                 /* write the fixed previous tag */
@@ -70,6 +70,71 @@ public class NERFormat
 //        }
         return fixedLine;
     }
+    /* Only need <ORG>APEC</ORG> from <ENAMEX TYPE="ORG">＜ Ｅｎｇｌｉｓｈ ＞ ＡＰＥＣ ＜ ／ Ｅｎｇｌｉｓｈ ＞</ENAMEX> */
+    private int getPreviousStringStartIndex(int tagStartIndex, ArrayList<String> tokens, int lineIndex){
+        int startIndex = -1;
+        for (int i = lineIndex + 1; i < tagStartIndex; i++){
+            if (tokens.get(i).contains("＞")){
+                // context start from the next token
+                startIndex = i + 1;
+                break;
+            }
+        }
+
+        return startIndex;
+    }
+
+    private int getPreviousStringEndIndex(int tagStartIndex, ArrayList<String> tokens, int middelDataStartIndex){
+        int endIndex = -1;
+        for (int i = middelDataStartIndex; i < tagStartIndex; i++){
+            if (tokens.get(i).contains("＜")){
+                endIndex = i;
+            }
+        }
+        return endIndex;
+    }
+
+    private String getPreviousString(FindTag.TagPosition tag, ArrayList<String> tokens, int lineIndex)
+    {
+        int tagStartIndex = tag.getTagIndexFrom();
+        int previousStringStartIndex = getPreviousStringStartIndex(tagStartIndex, tokens, lineIndex);
+        int previousStringEndIndex;
+
+        if(previousStringStartIndex > -1) {
+            previousStringEndIndex = getPreviousStringEndIndex(tagStartIndex, tokens, previousStringStartIndex);
+        } else {
+            previousStringStartIndex = lineIndex;
+            previousStringEndIndex = tagStartIndex;
+        }
+
+        // start to write previousStringStartIndex
+        String outputString = tokens.get(previousStringStartIndex);
+        for (int i = previousStringStartIndex + 1; i < previousStringEndIndex; i++) {
+            outputString += " " + tokens.get(i);
+        }
+        return outputString;
+    }
+
+    private boolean allNumALph(FindTag.TagPosition tag, ArrayList<String> tokens, int lineIndex)
+    {
+        int previousCount = tag.getTagIndexFrom();
+
+        if(lineIndex == previousCount || lineIndex == 0) return false;
+
+        for (int i = lineIndex; i < previousCount; i++) {
+            String test = tokens.get(i).substring(0, 1);
+            if (test.matches("[\\u4E00-\\u9FA5]+")
+                    || test.equals("，")
+                    || test.equals("。")
+                    || test.equals("（")
+                    || test.equals("）")
+                    || test.equals("｛")
+                    || test.equals("｝")) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     private String writeTillTag(FindTag.TagPosition tag, ArrayList<String> tokens, String fixedLine, int lineIndex)
     {
@@ -79,12 +144,24 @@ public class NERFormat
 //            fixedLine += tokens.get(lineIndex).split("<")[0];
 //        }
 
+        if(allNumALph(tag, tokens, lineIndex) && !tag.getTagName().equals("EOF") ){
+            fixedLine += getPreviousString(tag, tokens, lineIndex);
+        } else {
         /* write the data which before the previous tag */
-        for (int i = lineIndex; i < previousCount; i++) {
-            fixedLine += tokens.get(i);
+            for (int i = lineIndex; i < previousCount; i++) {
+//                // if current toke is ＜, it's a special tag. Need to skip
+//                if(tokens.get(i).equals("＜")){
+//                    for (int j = 0; j < previousCount; j++){
+//                        if (tokens.get(i).equals("＞")){
+//                            i = j + 1;
+//                        }
+//                    }
+//                }
+
+                fixedLine += tokens.get(i);
+            }
         }
         return fixedLine;
-
     }
 
 

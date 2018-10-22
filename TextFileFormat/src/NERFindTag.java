@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 /**
  * Created by Nihs on 2018/10/19.
@@ -39,12 +40,18 @@ public class NERFindTag extends FindTag
     {
         int tagEnd = tag.getTagIndexEnd();
         String outputString = "";
-        String middleString = tokens.get(tagEnd).split("<")[0];
+        String middleString = tokens.get(tagEnd);
+
 
 
         // for A="B>CD
         if (!tokens.get(tagEnd).contains("</") && in18Tag(tag)) {
             middleString = middleString.split(">")[1];
+//            if(middleString.contains("＜") || middleString.contains("＞")) return outputString;
+            // for those ＜ ＥＮＧ or ＜／
+            if(middleString.contains("＜")
+                    || middleString.contains("＞"))
+                middleString = "";
             outputString = middleString;
         } else {
             // ABC</D> or A="B">C</D> come here
@@ -53,9 +60,18 @@ public class NERFindTag extends FindTag
             if (tokens.get(tagEnd).split(">").length > 1) {
                 middleString = middleString.split(">")[1];
             }
+
+            // for those ＜ ＥＮＧ or ＜／
+            if(middleString.contains("＜")
+                    || middleString.contains("＞"))
+                middleString = "";
+
+            // for ABC</D>
+            middleString = middleString.split("<")[0];
             for (int i = tagEnd; i > 0; i--) {
                 if (tokens.get(i).contains("TYPE=")) {
-                    outputString = middleString + "</" + tokens.get(i).split("\"")[1] + ">";
+                    if(Pattern.matches(".*[a-zA-Z]+.*", middleString)) outputString = " ";
+                    outputString += middleString + "</" + tokens.get(i).split("\"")[1] + ">";
                     return outputString;
                 }
             }

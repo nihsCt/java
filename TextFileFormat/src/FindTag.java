@@ -100,20 +100,20 @@ public class FindTag
 
     public TagPosition findPreTag(ArrayList<String> tokens, int index)
     {
-        int startIndex = index;
+        int startIndex = -1;
         TagPosition currentTag = null;
         TagPosition specialTag = null;
         int length = tokens.size();
         for (int i = index; i < length; i++) {
             if (tokens.get(i).equals("＜")) {
                 if(specialTag != null) return specialTag;
-                startIndex = i;
                 specialTag = spacialTag(tokens, i);
                 i = specialTag.getTagIndexEnd();
+                startIndex = specialTag.getTagIndexFrom();
             }
 
             if (tokens.get(i).contains("<")) {
-                startIndex = i;
+                if (startIndex == -1) startIndex = i;
                 currentTag = getTagEnd(tokens, i);
                 if (currentTag != null) {
                     return new TagPosition(currentTag.getTagName(), startIndex, currentTag.getTagIndexEnd());
@@ -167,7 +167,7 @@ public class FindTag
     }
 
 
-    private TagPosition spacialTag(ArrayList<String> tokens, int index)
+    public TagPosition spacialTag(ArrayList<String> tokens, int index)
     {
         int tokenLength = tokens.size();
 
