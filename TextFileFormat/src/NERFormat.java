@@ -97,24 +97,12 @@ public class NERFormat
     {
         // for ABD</T> of data
         int previousCount = tag.getTagIndexFrom();
-//        if(previousCount < tokens.size() && tokens.get(previousCount).contains("</")){
-//            fixedLine += tokens.get(lineIndex).split("<")[0];
-//        }
 
         if(allNumALph(tag, tokens, lineIndex) && !tag.getTagName().equals("EOF") ){
             fixedLine += tagFinder.getPreviousString(tag, tokens, lineIndex);
         } else {
         /* write the data which before the previous tag */
             for (int i = lineIndex; i < previousCount; i++) {
-//                // if current toke is ＜, it's a special tag. Need to skip
-//                if(tokens.get(i).equals("＜")){
-//                    for (int j = 0; j < previousCount; j++){
-//                        if (tokens.get(i).equals("＞")){
-//                            i = j + 1;
-//                        }
-//                    }
-//                }
-
                 fixedLine += tokens.get(i);
             }
         }

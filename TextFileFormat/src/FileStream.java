@@ -88,9 +88,20 @@ public class FileStream
     public File writeFile(ArrayList<String> contextLines, File file, String extension)
     {
         try {
-            String outputName = file.getPath();
-            outputName = outputName.split("\\.")[0] + extension;
-            fileWriter = new FileWriter(outputName);
+
+            String path = file.getPath();
+            String[] outputName = path.split("\\.");
+            if(outputName.length == 2)
+                path = outputName[0] + extension;
+            else {
+                path = outputName[0];
+                for(int i = 1; i < outputName.length - 1; i++){
+                    path += "." + outputName[i];
+                }
+                path += extension;
+            }
+
+            fileWriter = new FileWriter(path);
             for (String contextLine : contextLines) {
                 fileWriter.write(contextLine + "\n");
             }
