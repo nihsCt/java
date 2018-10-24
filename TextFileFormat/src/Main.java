@@ -3,7 +3,7 @@
  */
 public class Main {
     public static void main(String[] args) {
-        String path = "chinese/annotations/bc/cctv/00/test";
+        String path = "chinese/annotations/";
         if(args.length > 0)
             path = args[0];
 
