@@ -47,11 +47,11 @@ public class FindFile
                 /* And, write the file to the file directory */
                 fileOperator.writeFile(NERLines, theFile, ".NER");
 
-                /* Fourth, Create WS Format data **/
-                WSFormat wsFormatter = new WSFormat(contextLines);
-                ArrayList<String> WSLines = wsFormatter.getFormattedLines();
-                /* And, write the file to the file directory */
-                fileOperator.writeFile(WSLines, theFile, ".WS");
+//                /* Fourth, Create WS Format data **/
+//                WSFormat wsFormatter = new WSFormat(contextLines);
+//                ArrayList<String> WSLines = wsFormatter.getFormattedLines();
+//                /* And, write the file to the file directory */
+//                fileOperator.writeFile(WSLines, theFile, ".WS");
 
             } else if (theFile.isDirectory()) {
                 System.out.println("Directory " + theFile.getName());

@@ -41,6 +41,7 @@ public class NERFindTag extends FindTag
         int tagEnd = tag.getTagIndexEnd();
         String outputString = "";
         String middleString = tokens.get(tagEnd);
+        boolean oneWord = false;
 
 
 
@@ -59,6 +60,7 @@ public class NERFindTag extends FindTag
             //for A="B">C</D> need to remove A="B">
             if (tokens.get(tagEnd).split(">").length > 1) {
                 middleString = middleString.split(">")[1];
+                oneWord = true;
             }
 
             // for those ＜ ＥＮＧ or ＜／
@@ -66,17 +68,64 @@ public class NERFindTag extends FindTag
                     || middleString.contains("＞"))
                 middleString = "";
 
+            if(tokens.get(tag.getTagIndexEnd()).equals("＞") && tokens.get(tag.getTagIndexFrom()).equals("＜")) return "";
+
             // for ABC</D>
             middleString = middleString.split("<")[0];
             for (int i = tagEnd; i > 0; i--) {
                 if (tokens.get(i).contains("TYPE=")) {
-                    if(Pattern.matches(".*[a-zA-Z]+.*", middleString)) outputString = " ";
+                    if(Pattern.matches(".*[a-zA-Z]+.*", middleString) && !oneWord) outputString = " ";
                     outputString += middleString + "</" + tokens.get(i).split("\"")[1] + ">";
                     return outputString;
                 }
             }
         }
 
+        return outputString;
+    }
+
+    /* Only need <ORG>APEC</ORG> from <ENAMEX TYPE="ORG">＜ Ｅｎｇｌｉｓｈ ＞ ＡＰＥＣ ＜ ／ Ｅｎｇｌｉｓｈ ＞</ENAMEX> */
+    private int getPreviousStringStartIndex(int tagStartIndex, ArrayList<String> tokens, int lineIndex){
+        int startIndex = -1;
+        for (int i = lineIndex + 1; i < tagStartIndex; i++){
+            if (tokens.get(i).contains("＞")){
+                // context start from the next token
+                startIndex = i + 1;
+                break;
+            }
+        }
+
+        return startIndex;
+    }
+
+    private int getPreviousStringEndIndex(int tagStartIndex, ArrayList<String> tokens, int middelDataStartIndex){
+        int endIndex = -1;
+        for (int i = middelDataStartIndex; i < tagStartIndex; i++){
+            if (tokens.get(i).contains("＜")){
+                endIndex = i;
+            }
+        }
+        return endIndex;
+    }
+
+    public String getPreviousString(FindTag.TagPosition tag, ArrayList<String> tokens, int lineIndex)
+    {
+        int tagStartIndex = tag.getTagIndexFrom();
+        int previousStringStartIndex = getPreviousStringStartIndex(tagStartIndex, tokens, lineIndex);
+        int previousStringEndIndex;
+
+        if(previousStringStartIndex > -1) {
+            previousStringEndIndex = getPreviousStringEndIndex(tagStartIndex, tokens, previousStringStartIndex);
+        } else {
+            previousStringStartIndex = lineIndex;
+            previousStringEndIndex = tagStartIndex;
+        }
+
+        // start to write previousStringStartIndex
+        String outputString = tokens.get(previousStringStartIndex);
+        for (int i = previousStringStartIndex + 1; i < previousStringEndIndex; i++) {
+            outputString += " " + tokens.get(i);
+        }
         return outputString;
     }
 }

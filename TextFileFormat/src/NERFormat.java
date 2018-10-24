@@ -70,50 +70,7 @@ public class NERFormat
 //        }
         return fixedLine;
     }
-    /* Only need <ORG>APEC</ORG> from <ENAMEX TYPE="ORG">＜ Ｅｎｇｌｉｓｈ ＞ ＡＰＥＣ ＜ ／ Ｅｎｇｌｉｓｈ ＞</ENAMEX> */
-    private int getPreviousStringStartIndex(int tagStartIndex, ArrayList<String> tokens, int lineIndex){
-        int startIndex = -1;
-        for (int i = lineIndex + 1; i < tagStartIndex; i++){
-            if (tokens.get(i).contains("＞")){
-                // context start from the next token
-                startIndex = i + 1;
-                break;
-            }
-        }
 
-        return startIndex;
-    }
-
-    private int getPreviousStringEndIndex(int tagStartIndex, ArrayList<String> tokens, int middelDataStartIndex){
-        int endIndex = -1;
-        for (int i = middelDataStartIndex; i < tagStartIndex; i++){
-            if (tokens.get(i).contains("＜")){
-                endIndex = i;
-            }
-        }
-        return endIndex;
-    }
-
-    private String getPreviousString(FindTag.TagPosition tag, ArrayList<String> tokens, int lineIndex)
-    {
-        int tagStartIndex = tag.getTagIndexFrom();
-        int previousStringStartIndex = getPreviousStringStartIndex(tagStartIndex, tokens, lineIndex);
-        int previousStringEndIndex;
-
-        if(previousStringStartIndex > -1) {
-            previousStringEndIndex = getPreviousStringEndIndex(tagStartIndex, tokens, previousStringStartIndex);
-        } else {
-            previousStringStartIndex = lineIndex;
-            previousStringEndIndex = tagStartIndex;
-        }
-
-        // start to write previousStringStartIndex
-        String outputString = tokens.get(previousStringStartIndex);
-        for (int i = previousStringStartIndex + 1; i < previousStringEndIndex; i++) {
-            outputString += " " + tokens.get(i);
-        }
-        return outputString;
-    }
 
     private boolean allNumALph(FindTag.TagPosition tag, ArrayList<String> tokens, int lineIndex)
     {
@@ -145,7 +102,7 @@ public class NERFormat
 //        }
 
         if(allNumALph(tag, tokens, lineIndex) && !tag.getTagName().equals("EOF") ){
-            fixedLine += getPreviousString(tag, tokens, lineIndex);
+            fixedLine += tagFinder.getPreviousString(tag, tokens, lineIndex);
         } else {
         /* write the data which before the previous tag */
             for (int i = lineIndex; i < previousCount; i++) {
